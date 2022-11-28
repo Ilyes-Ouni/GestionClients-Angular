@@ -9,7 +9,6 @@ import { MaterialModule } from '../material/material.module';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { GetRegionsbodyComponent } from './get-regions/get-regionsbody/get-regionsbody.component';
 
 
 @NgModule({
@@ -17,7 +16,6 @@ import { GetRegionsbodyComponent } from './get-regions/get-regionsbody/get-regio
     GetRegionsComponent,
     UpdateRegionComponent,
     AddRegionComponent,
-    GetRegionsbodyComponent,
   ],
   imports: [
     CommonModule,

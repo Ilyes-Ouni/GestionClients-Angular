@@ -7,13 +7,13 @@
     </mat-drawer>
 
     <mat-drawer-content>
-        <mat-toolbar class="toolbar" color="warn">
+        <mat-toolbar class="toolbar" color="warn" *ngIf="!logInUrl && isLoggedIn">
             OUNI
             <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
             <header-menu style="margin-left: 80%;"></header-menu>
         </mat-toolbar>
-        <router-outlet></router-outlet>
+        <router-outlet *ngIf="isLoggedIn || logInUrl"></router-outlet>
     </mat-drawer-content>
 </mat-drawer-container>
