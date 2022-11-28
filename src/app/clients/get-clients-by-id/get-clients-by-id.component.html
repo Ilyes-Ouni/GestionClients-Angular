@@ -1,0 +1,48 @@
+<div style="margin-top: 2%;">
+    <mat-form-field appearance="fill">
+        <mat-label>-- Region --</mat-label>
+        <select matNativeControl required [(ngModel)]="regionID" [ngModelOptions]="{standalone: true}" (change)="filterClients()">
+  <label></label>
+  <option *ngFor="let region of regions" [value]="region.regionID">{{region.regionName}}</option>
+</select>
+    </mat-form-field>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <!-- Position Column  -->
+        <ng-container matColumnDef="clientID">
+            <th mat-header-cell *matHeaderCellDef> ClientID </th>
+            <td mat-cell *matCellDef="let element"> {{element.clientID}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nomClient">
+            <th mat-header-cell *matHeaderCellDef> Full Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.nomClient}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="region">
+            <th mat-header-cell *matHeaderCellDef> region </th>
+            <td mat-cell *matCellDef="let element"> {{element.regions.regionName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateNaissance">
+            <th mat-header-cell *matHeaderCellDef> dateNaissance </th>
+            <td mat-cell *matCellDef="let element"> {{element.dateNaissance | date : 'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateCreation">
+            <th mat-header-cell *matHeaderCellDef> dateCreation </th>
+            <td mat-cell *matCellDef="let element"> {{element.dateCreation | date : 'dd/MM/yyyy'}} </td>
+        </ng-container>
+
+        <!-- aria-label="Select page" [pageSize]="10" [length]="lengthTable" -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator pageSize="14" showFirstLastButtons>
+    </mat-paginator>
+</div>
