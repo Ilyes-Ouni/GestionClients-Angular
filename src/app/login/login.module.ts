@@ -5,6 +5,7 @@ import { LoginRoutingModule } from './login-routing.module';
 import { InterfaceComponent } from './interface/interface.component';
 import { MaterialModule } from '../material/material.module';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
+    SharedModule,
     LoginRoutingModule
   ],
   declarations: [

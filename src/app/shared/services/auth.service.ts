@@ -6,8 +6,7 @@ import { User } from './User';
   providedIn: 'root'
 })
 export class AuthService {
-  users: User[] = [{"userID": 1, "username":"admin", "email": "admin@gmail.com", "password":"123", "roles":['ADMIN']},
-  {"userID": 2, "username":"ilyes", "email": "ilyes@gmail.com", "password":"123", "roles":['USER']} ];
+  user!: User;
 
   public loggedUser?:string;
   public isloggedIn: Boolean = false;
@@ -26,16 +25,16 @@ constructor(private router: Router) { }
 
   SignIn(user :User):Boolean{
     let validUser: Boolean = false;
-    this.users.forEach((curUser) => {
-      if(user.username=== curUser.username && user.password==curUser.password) {
-        validUser = true;
-        this.loggedUser = curUser.username;
-        this.isloggedIn = true;
-        this.roles = curUser.roles;
-        localStorage.setItem('loggedUser',String(this.loggedUser));
-        localStorage.setItem('isloggedIn',String(this.isloggedIn));
-      }
-    });
+    // this.users.forEach((curUser) => {
+    //   if(user.username=== curUser.username && user.password==curUser.password) {
+    //     validUser = true;
+    //     this.loggedUser = curUser.username;
+    //     this.isloggedIn = true;
+    //     this.roles = curUser.roles;
+    //     localStorage.setItem('loggedUser',String(this.loggedUser));
+    //     localStorage.setItem('isloggedIn',String(this.isloggedIn));
+    //   }
+    // });
     return validUser;
   }
 
@@ -53,8 +52,8 @@ constructor(private router: Router) { }
     this.getUserRoles(login);
   }
   getUserRoles(username :string){
-    this.users.forEach((curUser) => {
-    if( curUser.username == username ) this.roles = curUser.roles;
-    });
+    // this.users.forEach((curUser) => {
+    // if( curUser.username == username ) this.roles = curUser.roles;
+    // });
   }
 }

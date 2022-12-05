@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RouteDetectorService } from 'src/app/shared/services/route-detector.service';
 
 @Component({
   selector: 'carousel',
@@ -16,9 +17,10 @@ export class CarouselComponent implements OnInit {
     {path: 'https://www.tunisiatourism.info/uploads/editor/35148569-1611001644.jpg', city: 'Tunis'}
   ];
 
-  constructor() { }
+  constructor(private routeDetector: RouteDetectorService) { }
 
   ngOnInit(): void {
+    this.routeDetector.setURL('dashboard')
   }
 
 }

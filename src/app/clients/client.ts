@@ -1,10 +1,8 @@
-import { Region } from "./region";
-
 export class Client {
-  nomClient!: string;
-  regions!: Region;
+  nom_client!: string;
+  regions_regionid!: number;;
   email!: string;
-  phoneNumber!: number;
-  dateNaissance!: Date;
-  dateCreation!: Date;
+  phone_number!: number;
+  date_naissance!: Date;
+  date_creation!: Date;
 }

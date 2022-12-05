@@ -1,4 +1,4 @@
 export class Region {
-  regionID!: number;
-  regionName!: string;
+  regionid!: number;
+  region_name!: string;
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from 'src/app/shared/services/login.service';
 import { RegionsService } from 'src/app/shared/services/region.service';
+import { RouteDetectorService } from 'src/app/shared/services/route-detector.service';
 import { Client } from '../client';
 import { ClientsService } from '../clients.service';
 import { Region } from '../region';
@@ -16,32 +18,39 @@ export class UpdateClientComponent implements OnInit {
   client = new Client();
   updatedRegionID! : number;
 
-  constructor(private clientService: ClientsService, private regionService: RegionsService, private activatedRoute: ActivatedRoute){}
+  constructor(private clientService: ClientsService, private regionService: RegionsService, private activatedRoute: ActivatedRoute,
+    private routeDetector: RouteDetectorService, private router: Router, private loginService: LoginService){}
 
   ngOnInit(): void {
-    this.clientService.getClient(this.activatedRoute.snapshot.params['id'])
-    .subscribe((client:any) => {
-      this.regionService.getRegions()
-      .subscribe((regions:any) => {
-        console.log(client)
-        this.updatedRegionID = client.regions.regionID
-        this.client = client
-        this.regions = regions
+    this.routeDetector.setURL('clients')
+    this.loginService.checkUser()
+    .subscribe((user:any) => {
+      if(user.exist) {
+      this.clientService.getClient(this.activatedRoute.snapshot.params['id'])
+      .subscribe((client:any) => {
+        this.regionService.getRegions()
+        .subscribe((regions:any) => {
+          console.log(client)
+          this.updatedRegionID = client.regions_regionid
+          this.client = client
+          this.regions = regions.results
+        })
       })
+      }else{
+        this.router.navigateByUrl(`/login`)
+      }
     })
   }
 
   updateClient(): void {
-    this.regions.forEach(element => {
-      if(element.regionID == this.updatedRegionID){
-        console.log(element)
-        this.client.regions = element
-      }
-    });
+    this.client.regions_regionid = this.updatedRegionID
+
     console.log(this.client)
     this.clientService.updateClient(this.client)
     .subscribe((client:any) => {
-      console.log(client);
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+      this.router.onSameUrlNavigation = 'reload';
+      this.router.navigate( ['/getClients'], {relativeTo: this.activatedRoute })
     })
   }
 }

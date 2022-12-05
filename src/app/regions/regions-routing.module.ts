@@ -5,7 +5,7 @@ import { GetRegionsComponent } from './get-regions/get-regions.component';
 const routes: Routes = [
   {path: '', children: [
     {path: 'getRegions', component: GetRegionsComponent},
-    {path: '**', redirectTo: '/getRegions', pathMatch: 'full'}
+    // {path: '**', redirectTo: '/getRegions', pathMatch: 'full'}
   ]}
 ];
 

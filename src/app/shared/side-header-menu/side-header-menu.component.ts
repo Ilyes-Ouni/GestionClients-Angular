@@ -13,4 +13,7 @@ export class SideHeaderMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  logout(){
+    localStorage.clear()
+  }
 }

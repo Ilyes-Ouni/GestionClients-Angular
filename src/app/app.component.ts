@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './shared/services/auth.service';
+import { RouteDetectorService } from './shared/services/route-detector.service';
 
 @Component({
   selector: 'app-root',
@@ -13,11 +14,14 @@ export class AppComponent implements OnInit {
   logInUrl:boolean = false;
   isLoggedIn = false;
 
-  constructor(private authService: AuthService){}
+  constructor(private authService: AuthService, private router: Router, private routeDetector: RouteDetectorService){}
 
   ngOnInit(): void {
-    if(this.authService.isloggedIn) this.isLoggedIn = true;
-    if(location.href.includes('login')) this.logInUrl = true;
+    this.routeDetector.data.subscribe(response => {
+      if(response == 'login') this.logInUrl = true;
+      else this.logInUrl = false;
+      console.log(this.logInUrl)
+    });
   }
 
   title = 'clients';

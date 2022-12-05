@@ -13,4 +13,7 @@ export class HeaderMenuComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  logout(){
+    localStorage.clear()
+  }
 }

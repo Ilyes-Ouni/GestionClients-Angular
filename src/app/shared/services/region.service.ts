@@ -20,24 +20,24 @@ export class RegionsService {
   }
 
   getRegions(){
-    return this.http.get(`${this.url}/springboot/region/getRegions`);
+    return this.http.get(`${this.url}/getRegions`, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')?.toString()}`}});
   }
 
   deleteRegion(regionID: number){
-    return this.http.delete(`${this.url}/springboot/region/deleteRegion/${regionID}`);
+    return this.http.delete(`${this.url}/deleteRegion/${regionID}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')?.toString()}`}});
   }
 
   updateRegion(region: Region){
-    return this.http.put(`${this.url}/springboot/region/updateRegion/${region.regionID}`, region);
+    return this.http.put(`${this.url}/updateRegion`, region, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')?.toString()}`}});
   }
 
   addRegion(region: Region){
     console.log(region)
-    return this.http.post(`${this.url}/springboot/region/addRegion`, region);
+    return this.http.post(`${this.url}/addRegion`, region, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')?.toString()}`}});
   }
 
   getRegion(regionID: number){
-    return this.http.get(`${this.url}/springboot/region/getRegion/${regionID}`);
+    return this.http.get(`${this.url}/getRegion/${regionID}`, {headers: {'Authorization': `Bearer ${localStorage.getItem('token')?.toString()}`}});
   }
 
 }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ClientGuard } from '../client.guard';
 import { AddClientComponent } from './add-client/add-client.component';
 import { GetClientsByIdComponent } from './get-clients-by-id/get-clients-by-id.component';
 import { GetClientsByNameComponent } from './get-clients-by-name/get-clients-by-name.component';
@@ -9,7 +8,6 @@ import { UpdateClientComponent } from './update-client/update-client.component';
 
 const routes: Routes = [
   {path: '',
-  canActivateChild: [ClientGuard],
   children: [
     // {path: '', redirectTo: '/getClients', pathMatch: 'full'},
     {path: 'getClients', component: GetClientsComponent},

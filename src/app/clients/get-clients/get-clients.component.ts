@@ -2,7 +2,11 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { LoginService } from 'src/app/shared/services/login.service';
 import { RegionsService } from 'src/app/shared/services/region.service';
+import { RouteDetectorService } from 'src/app/shared/services/route-detector.service';
+import Swal from 'sweetalert2';
 import { ClientsService } from '../clients.service';
 
 @Component({
@@ -14,33 +18,59 @@ export class GetClientsComponent implements OnInit {
   background:string = 'https://us.123rf.com/450wm/detailfoto/detailfoto1702/detailfoto170200097/71490950-fond-d-%C3%A9cran-blanc.jpg?ver=6'
   displayedColumns: string[] = ['clientID', 'nomClient', 'email', 'phoneNumber', 'region','dateNaissance','dateCreation', 'options'];
   dataSource = new MatTableDataSource();
-
+  isAdmin:boolean = false;
   @ViewChild(MatSort) sort:any;
   @ViewChild(MatPaginator) paginator:any;
 
-  constructor(private clientService: ClientsService, private regionService: RegionsService) { }
+  constructor(private clientService: ClientsService, private regionService: RegionsService, private routeDetector: RouteDetectorService,
+    private router: Router, private route: ActivatedRoute, private loginService: LoginService) { }
 
-  ngOnInit(): void {
-    this.clientService.getClients()
-    .subscribe((res:any) => {
-      console.log(res)
-        this.dataSource = new MatTableDataSource(res);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator
+    ngOnInit(): void {
+    this.routeDetector.setURL('clients')
+    this.loginService.checkUser()
+    .subscribe((user:any) => {
+      if(user.exist) {
+          if(user.role == 'admin') this.isAdmin = true
+        this.clientService.getClients()
+        .subscribe((clients:any) => {
+          this.dataSource = new MatTableDataSource(clients.results);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator
+        })
+      }else{
+        this.router.navigateByUrl(`/login`)
+      }
     })
   }
 
   deleteClient(clientID:number){
-    if (confirm('Are you sure you want to delete this client')){
-      this.clientService.deleteClient(clientID)
-      .subscribe(res => {
+    if(!this.isAdmin){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Access denied',
       })
+    }else{
+        if (confirm('Are you sure you want to delete this client')){
+          this.clientService.deleteClient(clientID)
+          .subscribe(res => {
+            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+            this.router.onSameUrlNavigation = 'reload';
+            this.router.navigate( ['/clients/getClients'], {relativeTo: this.route })
+          })
+        }
     }
   }
 
-
-  test(t:any){
-    console.log(t)
+  updateClient(clientID:number){
+    if(!this.isAdmin){
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Access denied',
+      })
+    }else{
+      this.router.navigateByUrl(`clients/getClients/updateClient/${clientID}`)
+    }
   }
-
 }
